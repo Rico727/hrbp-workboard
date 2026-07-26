@@ -411,11 +411,11 @@ function renderNotes() {
     const titleEl = card.querySelector(".note-title");
     const contentEl = card.querySelector(".note-content");
     titleEl.textContent = note.title || "";
-    contentEl.textContent = note.content || "";
+    contentEl.innerHTML = note.content || "";
     if (!isReadOnly) {
       const saveNote = function() {
         state.notes[idx].title = titleEl.textContent;
-        state.notes[idx].content = contentEl.textContent;
+        state.notes[idx].content = contentEl.innerHTML;
         state.notes[idx].updated = new Date().toLocaleString("zh-CN");
         scheduleSync();
         card.querySelector(".note-meta").textContent = "📅 " + state.notes[idx].updated;
@@ -424,7 +424,7 @@ function renderNotes() {
       contentEl.addEventListener("blur", saveNote);
     }
     card.querySelector(".copy-btn").addEventListener("click", function() {
-      const text = (titleEl.textContent ? titleEl.textContent + "\n\n" : "") + contentEl.textContent;
+      const text = (titleEl.textContent ? titleEl.textContent + "\n\n" : "") + contentEl.innerText;
       navigator.clipboard.writeText(text).then(function() {
         const btn = card.querySelector(".copy-btn");
         const orig = btn.textContent;
